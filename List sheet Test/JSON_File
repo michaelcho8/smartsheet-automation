@@ -1,0 +1,59 @@
+{
+"id": 6141831453927300,
+"name": "My first sheet",
+"columns": [{
+
+        "id": 2517104256673668,
+        "index": 0,
+        "title": "Name",
+        "type": "TEXT_NUMBER",
+        "primary": true,
+        "width": 150
+    },
+    {
+        "id": 7020703884044164,   
+        "index": 1,
+        "title": "EmployeeId",
+        "type": "TEXT_NUMBER",
+        "width": 150
+    }
+],
+"rows": [{                       
+        "id": 564480076736388,    
+        "rowNumber": 1,
+        "expanded": true,
+        "createdAt": "2017-05-12T16:52:38Z",
+        "modifiedAt": "2017-05-22T20:40:14Z",
+        "cells": [{
+                    "columnId": 2517104256673668,
+                   
+                    "value": "John Doe",
+                    "displayValue": "John Doe"
+                    },
+                    {
+                    "columnId": 7020703884044164,
+                    "value": 12345,            
+                    "displayValue": "12,345"
+                    }
+        ]},
+        {
+        "id": 5068079704106884,
+        "rowNumber": 2,
+        "siblingId": 564480076736388,
+        "expanded": true,
+        "createdAt": "2017-05-12T16:52:38Z",
+        "modifiedAt": "2017-05-22T20:40:14Z",
+        "cells": [{
+                    "columnId": 2517104256673668,
+                    "value": "Jane Roe",
+                    "displayValue": "Jane Roe"
+                    },
+                    {
+                    "columnId": 7020703884044164,
+                    "value": 67890,
+                    "displayValue": "67890"
+                    }
+        ]
+        }
+]
+}
