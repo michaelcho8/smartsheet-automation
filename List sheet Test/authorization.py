@@ -1,22 +1,29 @@
 import requests
 import smartsheet
 import os
+import datetime
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from config import smartsheet_client, EMAIL_RECIPIENTS
 
 # The API endpoint
 url = "https://app.smartsheet.com/sheets/p27W9cFxxg9VF7xj86GMVhw79qJmPvVgJ65G8MP1"
 
 sheet_id = 1794600033275780
 
-dir_name = "Downloaded Excel Files"
-if not os.path.isdir(dir_name):
-    os.makedirs(dir_name)
-else:
-    print(f'Directory "{dir_name}" already exists.')
+# Define the column names
+LAST_UPDATED_COLUMN = "Last Updated"
+NCR_NUMBER_COLUMN = "NCR Number"
 
-sheet = smartsheet_client.Sheets.get_sheet_as_excel(sheet_id, dir_name)
+# Get the current date
+two_weeks_ago = datetime.datetime.now() - datetime.timedelta(weeks=2)
 
-# A GET request to the API
-response = requests.get(url)
+# Fetch all rows from the sheet
+sheet = smartsheet_client.Sheets.get_sheet(sheet_id)
+rows_to_update = []
 
-# Print the response
-print(response.json())
+# Iterate through each row in the sheet
+for row in sheet.rows:
+    last_updated_cell = next(cell for cell in row.cells if cell.column_id == LAST_UPDATED_COLUMN)    
+    ncr_number_cell = next(cell for cell in row.cells if cell.column_id == NCR_NUMBER_COLUMN)
+    
