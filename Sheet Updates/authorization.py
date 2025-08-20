@@ -4,7 +4,7 @@ import os
 import datetime
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from config import smartsheet_client, EMAIL_RECIPIENTS
+from config import smartsheet_client
 
 # The API endpoint
 url = "https://app.smartsheet.com/sheets/p27W9cFxxg9VF7xj86GMVhw79qJmPvVgJ65G8MP1"
@@ -24,6 +24,17 @@ rows_to_update = []
 
 # Iterate through each row in the sheet
 for row in sheet.rows:
-    last_updated_cell = next(cell for cell in row.cells if cell.column_id == LAST_UPDATED_COLUMN)    
-    ncr_number_cell = next(cell for cell in row.cells if cell.column_id == NCR_NUMBER_COLUMN)
+    print(f"Processing Row ID: {row.row_number}")
+
+cell_update = smartsheet.models.Cell()
+cell_update.column_id = YOUR_COLUMN_ID
+cell_update.row_id = YOUR_ROW_ID
+cell_update.value = "Your Value"
+cell_update.format = "1,1,1,1,1,1,1,1,1,6"  # Example: bold, red font
+
+smartsheet_client.Sheets.update_rows(sheet_id, [smartsheet.models.Row({
+    'id': YOUR_ROW_ID,
+    'cells': [cell_update]
+})])
     
+print(f"Current Row and NCR Number: {ncr_number_cell}\n Last Updated: {last_updated_cell}")
