@@ -4,11 +4,9 @@ import os
 import datetime
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from config import smartsheet_client
+from config import smartsheet_client, URL, EMAIL_RECIPIENTS # Importing API Endpoint (URL), smartsheet client, and email recipients
 
-# The API endpoint
-url = "https://app.smartsheet.com/sheets/p27W9cFxxg9VF7xj86GMVhw79qJmPvVgJ65G8MP1"
-
+# Sheet ID for Control of NCR Register  WISA-DC-000081
 sheet_id = 1794600033275780
 
 # Define the column names
@@ -22,19 +20,87 @@ two_weeks_ago = datetime.datetime.now() - datetime.timedelta(weeks=2)
 sheet = smartsheet_client.Sheets.get_sheet(sheet_id)
 rows_to_update = []
 
+# # Extract column_id for target column name
+# column_name = "Updates"  # Replace with the actual column name
+# column_id = None
+# for column in sheet.columns:
+#     if column.title == column_name:
+#         column_id = column.id
+#         break
+
+# if column_id is None:
+#     raise ValueError(f"Column '{column_name}' not found in the sheet.")
+# print(f"Column ID for '{column_name}': {column_id}")
+
+# # Extract row_id for a specific row (e.g., based on a cell value in the column)
+# row_id = None
+# target_value = 5  # Replace with the value you're looking for
+# for row in sheet.rows:
+#     for cell in row.cells:
+#         if cell.column_id == column_id and cell.value == target_value:
+#             row_id = row.id
+#             break
+#     if row_id is not None:
+#         break
+
+# if row_id is None:
+#     raise ValueError(f"Row with value '{target_value}' not found in column '{column_name}'.")
+
+# print(f"Column ID: {column_id}, Row ID: {row_id}")
+
+
+
+# # Find the cell in the specified row and column
+# target_row_number = 5  # Replace with the row number you are looking for
+# target_column_id = column_id  # Replace with the column ID you are looking for
+
+# target_cell = None
+# for row in sheet.rows:
+#     if row.row_number == target_row_number:
+#         for cell in row.cells:
+#             if cell.column_id == target_column_id:
+#                 target_cell = cell
+#                 break
+#         break
+
+# if target_cell is None:
+#     raise ValueError(f"Cell not found in row {target_row_number} and column ID {target_column_id}.")
+
+# print(f"Found cell in row {target_row_number} and column ID {target_column_id}: {target_cell.value}")
+
+# for column in sheet.columns:
+#     print(f"Column Name: {column.title}, Column ID: {column.id}")
+
 # Iterate through each row in the sheet
+current_status_col_id = 65371578257284
 for row in sheet.rows:
     print(f"Processing Row ID: {row.row_number}")
+    for cell in row.cells:
+        if cell.column_id != current_status_col_id:
+            continue
+        print(f"Current Cell Value: {cell.value}")  # Print the cell's current value
+        cell_update = smartsheet.models.Cell()
+        cell_update.column_id = current_status_col_id
+        # Define the new picklist value to add (must be a valid picklist option)
+        new_picklist_value = f"{datetime.datetime.now().strftime('%m/%d/%Y')}: Accessed via API -MC"
+        # Ensure the value is a list and append the new value if not present
+        if isinstance(cell.value, list):
+            updated_values = cell.value.copy()
+            if new_picklist_value not in updated_values:
+                updated_values.append(new_picklist_value)
+        else:
+            updated_values = [new_picklist_value]
+        cell_update.value = updated_values
+        print(f"Updated Cell Value: {cell_update.value}")  # Print the updated value
+        updated_row = smartsheet.models.Row()
+        updated_row.id = row.id
+        updated_row.cells = [cell_update]
+        rows_to_update.append(updated_row)
+            
 
-cell_update = smartsheet.models.Cell()
-cell_update.column_id = YOUR_COLUMN_ID
-cell_update.row_id = YOUR_ROW_ID
-cell_update.value = "Your Value"
-cell_update.format = "1,1,1,1,1,1,1,1,1,6"  # Example: bold, red font
 
-smartsheet_client.Sheets.update_rows(sheet_id, [smartsheet.models.Row({
-    'id': YOUR_ROW_ID,
-    'cells': [cell_update]
-})])
+# Update rows in smartsheet
+if rows_to_update:
+    smartsheet_client.Sheets.update_rows(sheet_id, rows_to_update)
     
-print(f"Current Row and NCR Number: {ncr_number_cell}\n Last Updated: {last_updated_cell}")
+# print(f"Current Row and NCR Number: {ncr_number_cell}\n Last Updated: {last_updated_cell}")
