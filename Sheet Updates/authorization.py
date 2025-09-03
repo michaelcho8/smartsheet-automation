@@ -4,20 +4,13 @@ import os
 import datetime
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from config import smartsheet_client, URL, EMAIL_RECIPIENTS # Importing API Endpoint (URL), smartsheet client, and email recipients
-
-# Sheet ID for Control of NCR Register  WISA-DC-000081
-sheet_id = 1794600033275780
-
-# Define the column names
-LAST_UPDATED_COLUMN = "Last Updated"
-NCR_NUMBER_COLUMN = "NCR Number"
+from config import smartsheet_client, ACCESS_TOKEN, SHEET_ID, EMAIL_RECIPIENTS # Importing API Endpoint (URL), smartsheet client, and email recipients
 
 # Get the current date
 two_weeks_ago = datetime.datetime.now() - datetime.timedelta(weeks=2)
 
 # Fetch all rows from the sheet
-sheet = smartsheet_client.Sheets.get_sheet(sheet_id)
+sheet = smartsheet_client.Sheets.get_sheet(SHEET_ID)
 rows_to_update = []
 
 # Store column IDs into column_map dictionary with column titles
@@ -30,6 +23,10 @@ for column in sheet.columns:
     print(f"Column ID for '{column.title}': {column.id}")
 
 
+def get_cell_by_column_name(row, column_name):
+    # Retrieves a cell from a row by column name.
+    column_id = column_map[column_name]
+    return row.get_column(column_id)
 
 # # Extract row_id for a specific row (e.g., based on a cell value in the column)
 # row_id = None
