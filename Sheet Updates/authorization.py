@@ -20,17 +20,16 @@ two_weeks_ago = datetime.datetime.now() - datetime.timedelta(weeks=2)
 sheet = smartsheet_client.Sheets.get_sheet(sheet_id)
 rows_to_update = []
 
-# # Extract column_id for target column name
-# column_name = "Updates"  # Replace with the actual column name
-# column_id = None
-# for column in sheet.columns:
-#     if column.title == column_name:
-#         column_id = column.id
-#         break
+# Store column IDs into column_map dictionary with column titles
+column_map = {}
+for column in sheet.columns:
+    if column.id is None:
+        print(f"Warning: Column '{column.title}' not found in the sheet. Skipping...")
+        continue
+    column_map[column.title] = column.id
+    print(f"Column ID for '{column.title}': {column.id}")
 
-# if column_id is None:
-#     raise ValueError(f"Column '{column_name}' not found in the sheet.")
-# print(f"Column ID for '{column_name}': {column_id}")
+
 
 # # Extract row_id for a specific row (e.g., based on a cell value in the column)
 # row_id = None
@@ -75,6 +74,8 @@ rows_to_update = []
 current_status_col_id = 65371578257284
 for row in sheet.rows:
     print(f"Processing Row ID: {row.row_number}")
+    if row.row_number > sheet.total_row_count:
+        break
     for cell in row.cells:
         if cell.column_id != current_status_col_id:
             continue
