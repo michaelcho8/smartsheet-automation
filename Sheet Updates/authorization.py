@@ -22,11 +22,48 @@ for column in sheet.columns:
     column_map[column.title] = column.id
     print(f"Column ID for '{column.title}': {column.id}")
 
-
-def get_cell_by_column_name(row, column_name):
-    # Retrieves a cell from a row by column name.
-    column_id = column_map[column_name]
+def get_cell_by_column_title(row, column_title):
+    # Retrieves a cell from a row by column title.
+    column_id = column_map[column_title]
     return row.get_column(column_id)
+
+# Iterate through each row in the sheet
+# current_status_col_id = 65371578257284
+for row in sheet.rows:
+    print(f"Processing Row ID: {row.row_number}")
+    # If row number exceeds total row count, skip processing
+    if row.row_number > sheet.total_row_count:
+        break
+    # Get the current status cell
+    current_status_cell = get_cell_by_column_title(row, "Current Status")
+    # If the current status cell is found, proceed with processing
+    if current_status_cell:
+        print(f"Current Cell Value: {current_status_cell.value}")  # Print the cell's current value
+        cell_update = smartsheet.models.Cell()
+        cell_update.column_id = current_status_cell.column_id
+        # Define the new picklist value to add (must be a valid picklist option)
+        new_picklist_value = f"{datetime.datetime.now().strftime('%m/%d/%Y')}: Accessed via API -MC"
+        # Ensure the value is a list and append the new value if not present
+        if isinstance(current_status_cell.value, list):
+            updated_values = current_status_cell.value.copy()
+            if new_picklist_value not in updated_values:
+                updated_values.append(new_picklist_value)
+        else:
+            updated_values = [new_picklist_value]
+        cell_update.value = updated_values
+        print(f"Updated Cell Value: {cell_update.value}")  # Print the updated value
+        updated_row = smartsheet.models.Row()
+        updated_row.id = row.id
+        updated_row.cells = [cell_update]
+        rows_to_update.append(updated_row)
+
+# Update rows in smartsheet
+if rows_to_update:
+    smartsheet_client.Sheets.update_rows(sheet, rows_to_update)
+
+"""
+Extra Code from prior attempts
+"""
 
 # # Extract row_id for a specific row (e.g., based on a cell value in the column)
 # row_id = None
@@ -67,38 +104,4 @@ def get_cell_by_column_name(row, column_name):
 # for column in sheet.columns:
 #     print(f"Column Name: {column.title}, Column ID: {column.id}")
 
-# Iterate through each row in the sheet
-current_status_col_id = 65371578257284
-for row in sheet.rows:
-    print(f"Processing Row ID: {row.row_number}")
-    if row.row_number > sheet.total_row_count:
-        break
-    for cell in row.cells:
-        if cell.column_id != current_status_col_id:
-            continue
-        print(f"Current Cell Value: {cell.value}")  # Print the cell's current value
-        cell_update = smartsheet.models.Cell()
-        cell_update.column_id = current_status_col_id
-        # Define the new picklist value to add (must be a valid picklist option)
-        new_picklist_value = f"{datetime.datetime.now().strftime('%m/%d/%Y')}: Accessed via API -MC"
-        # Ensure the value is a list and append the new value if not present
-        if isinstance(cell.value, list):
-            updated_values = cell.value.copy()
-            if new_picklist_value not in updated_values:
-                updated_values.append(new_picklist_value)
-        else:
-            updated_values = [new_picklist_value]
-        cell_update.value = updated_values
-        print(f"Updated Cell Value: {cell_update.value}")  # Print the updated value
-        updated_row = smartsheet.models.Row()
-        updated_row.id = row.id
-        updated_row.cells = [cell_update]
-        rows_to_update.append(updated_row)
-            
-
-
-# Update rows in smartsheet
-if rows_to_update:
-    smartsheet_client.Sheets.update_rows(sheet_id, rows_to_update)
-    
 # print(f"Current Row and NCR Number: {ncr_number_cell}\n Last Updated: {last_updated_cell}")
