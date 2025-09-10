@@ -1,0 +1,23 @@
+from shareplum import Site
+from shareplum import Office365
+from shareplum.site import Version
+
+# SharePoint credentials and info
+username = "your_username"
+password = "your_password"
+site_url = "https://yourcompany.sharepoint.com/sites/yoursite"
+doc_library = "Documents"  # Change to your document library name
+
+# Authenticate
+authcookie = Office365(site_url, username=username, password=password).GetCookies()
+site = Site(site_url, version=Version.v365, authcookie=authcookie)
+folder = site.Folder(doc_library)
+
+# File to upload
+file_path = "path/to/your/file.txt"
+with open(file_path, "rb") as file:
+    file_content = file.read()
+
+# Upload file
+folder.upload_file(file_content, "file.txt")
+print("File uploaded successfully!")
