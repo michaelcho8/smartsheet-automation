@@ -66,6 +66,14 @@ for row in sheet.rows:
     if rowToUpdate is not None:
         rowsToUpdate.append(rowToUpdate)
 
+# Update rows in smartsheet
+if rows_to_update:
+    smartsheet_client.Sheets.update_rows(sheet, rows_to_update)
+
+"""
+Extra Code from prior attempts
+"""
+
 # # Iterate through each row in the sheet
 # # current_status_col_id = 65371578257284
 # for row in sheet.rows:
@@ -95,14 +103,7 @@ for row in sheet.rows:
 #         updated_row.id = row.id
 #         updated_row.cells = [cell_update]
 #         rows_to_update.append(updated_row)
-
-# Update rows in smartsheet
-if rows_to_update:
-    smartsheet_client.Sheets.update_rows(sheet, rows_to_update)
-
-"""
-Extra Code from prior attempts
-"""
+#
 # # Get the current date
 # two_weeks_ago = datetime.datetime.now() - datetime.timedelta(weeks=2)
 
