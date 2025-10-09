@@ -1,0 +1,20 @@
+Primary Column,Column2,Column3,Column4,Column5,Column6,Column7,Column8,Column9,Column10,Column11,Column12,Column13,Column14,Column15,Column16,Column17,Column18,Column19
+04/08/25 3:21 PM,Sound Transit,"At WISK
+Shipped to WISK",NCR - 00085,NA,BOX ASSEMBLY EDS,N/A,R1C011384,"Box Assy EDS, 1 bad tap, screw broken inside one of the taps",WISK,"6/24/2025: Redone Form
+8/21/2025: Item got shipped to WISK to get repaired. -BD",chpark@wjis.co.kr,1.0,Vong,Vong,Repair,This Box assy EDS send back to WIKS for repair.,WISK,08/21/25 8:53 AM
+04/08/25 4:20 PM,Sound Transit,Shipped to WISK,NCR - 00086,"NA.
+OLD NCR #: 1496",MCPU BOARD,2410363.0,R1C011317,MCPU Board return to WISK ( this board use for Lontester),WISK,"6/24/2025: Redone Form
+8/21/2025: Item got shipped to WISK. Waiting to get updates from WISK. -BD",chpark@wjis.co.kr,1.0,Vong,Vong,Scrap,This Box assy EDS send back to WIKS for repair.,WISK,08/21/25 8:53 AM
+04/10/25 1:55 PM,Sound Transit,Shipped to WISK,NCR - 00087,NA,BOX ASSEMBLY EDS,N/A,R1C011384,Scratches on body and lens,WISK,"6/24/2025: Redone Form
+8/21/2025: Item got shipped to WISK. -BD",chpark@wjis.co.kr,1.0,Vong,Vong,Repair,This Box assy EDS send back to WIKS for repair.,WISK,08/21/25 8:59 AM
+04/10/25 4:40 PM,Sound Transit,At WISK,NCR - 00088,NA,BOX ASSEMBLY EDS,N/A,R1C011308,Scratches on plastic lens,WISK,"6/24/2025: Redone Form
+8/21/2025: Item got shipped to WISK. -BD",chpark@wjis.co.kr,1.0,Vong,Vong,Repair,This Box assy EDS send back to WIKS for repair.,WISK,08/21/25 9:05 AM
+04/11/25 11:59 AM,Sound Transit,Complete,NCR - 00089,S2504-0010-1,TOD,TSCEB1005822,R1C011315,TOD REBOOTS ITSELF RANDOMLY,NEXCOM,6/4//25: MCU updated to fix reboot issue. All passed function test and burn-in test. 6/24/2025: Redone Form.,dtran@nexcom.com,1.0,Vong,Vong,"Repair
+Return to Vendor","TOD REBOOT ITSELF RANDOMLY, THIS ISSUE NEED TO FIXED BY VENDOR.",WISA Inventory,08/18/25 11:22 AM
+04/11/25 12:01 PM,Sound Transit,Complete,NCR - 00090,S2504-0010-20,TOD,TSCEB1005837,R1C011315,TOD REBOOTS ITSELF RANDOMLY,NEXCOM,"6/3/25: MCU updated to fix reboot issue. All passed function test and burn-in test.
+6/24/2025: Redone Form.
+8/18/2025: Item is fixed and got returned to WISA inventory. -BD",dtran@nexcom.com,1.0,Vong,Vong,"Repair
+Return to Vendor","TOD REBOOT ITSELF RANDOMLY, THIS ISSUE NEED TO FIXED BY VENDOR.",WISA Inventory,08/18/25 11:26 AM
+04/15/25 10:44 AM,Sound Transit,Shipped to WISK,NCR - 00091,NA,DLC BOARD,24E0007,R1C011372-G01,DLC FAILED TO COMMUNICATION DURING THE TEST,WISK,"6/24/2025: Redone Form
+8/21/2025: Item got shipped to WISK. Waiting on update on WQMS. -BD",chpark@wjis.co.kr,1.0,Vong,Vong,"Repair
+Return to Vendor",DLC DID NOT COMMUNICATION DURING THE TEST,WISK,08/21/25 9:09 AM
